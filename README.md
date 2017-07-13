@@ -17,7 +17,7 @@ It :
 
 # QuickStart 
 
-See Install.md
+See [Install Docs](install.md)
 
 # Webhook Specific Documentation 
 
