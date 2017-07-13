@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+
+    DocumentRoot /srv/webhook-client/public
+
+    <Directory "/srv/webhook-client">
+        Options FollowSymlinks
+        AllowOverride ALL
+        Require all granted
+    </Directory>
+
+    <Location '/'>
+        Allow from All
+    </Location>
+
+    # Not sure we should live without logging
+    ErrorLog /var/log/apache2/error.log 
+    CustomLog /var/log/apache2/access.log combined
+
+</VirtualHost>
+

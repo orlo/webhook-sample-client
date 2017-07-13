@@ -1,0 +1,4 @@
+- name: run unit tests
+  service: app
+  command: php /usr/local/bin/composer test
+

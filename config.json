@@ -1,0 +1,6 @@
+{
+  "secret": "changeme!",
+  "database_dsn": "sqlite:/var/tmp/webhook_client.sqlite",
+  "database_user": "",
+  "database_pass": ""
+}
