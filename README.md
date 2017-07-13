@@ -31,10 +31,9 @@ When registering for a webhook with SocialSignIn, you provide :
  When SocialSignIn sends webhook notifications to your destination\_url, the HTTP request to your destination url will look like the following :
  
  ```
-... http headers...
-SocialSignIn-HookId: <some uuid>
-SocialSignIn-Hash: <some sha256 string>
-... http headers...
+Content-Type: application/json
+SocialSignIn-HookId: 2fef7b90-0086-424d-9275-2719c9f72d43
+SocialSignIn-Hash: e123f721ae689ad2a06b5eed0838238f27e5c71d2159c258e73c651c98f17bdf
   
 { .... some json payload here .... }
 ```
@@ -66,7 +65,6 @@ SocialSignIn would generate a hash of :
 
 This value will be provided to you in the **SocialSignIn-Hash** HTTP header on the received notification at your ***destination_url***
 
-
 Upon receiving the notification you must reply with a hash of that hash ... like the equivalent of the following PHP code :
 
 ```php 
@@ -77,6 +75,5 @@ hash_hmac('sha256', 'e123f721ae689ad2a06b5eed0838238f27e5c71d2159c258e73c651c98f
 
 
 this confirms to SocialSignIn that the notification was successfully received by the correct recipient.
-
 
 If you wish to answer multiple webhooks from one endpoint, you would need to use a URL parameter (e.g destination_url?hookId=2)) to differentiate between them.
