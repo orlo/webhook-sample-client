@@ -18,6 +18,12 @@ Requirements :
  
 Copy the code to an appropriate Unix host; map /path/to/code/public to a document root (example Apache config is in provisioning/apache-host)
 
+Run ***setup.php*** to create a temporary Sqlite database in /var/tmp; You'll probably need to 
+
+```bash
+chown www-data /var/tmp/webhook_client.sqlite
+```
+
 ##  then ...
 
 Register a webhook with SocialSignIn. You will need to provide SocialSignIn with the destination URL for the webhook, as well as specifying a shared secret. 
