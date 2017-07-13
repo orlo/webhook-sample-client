@@ -23,32 +23,26 @@ See [Install Docs](install.md)
 
 When registering for a webhook with SocialSignIn, you provide :
 
-  * dev\_email (string, email address)
-  * secret (string, shared secret)
-  * destination\_url (string, where notifications are sent to)
+  * dev\_email (string, email address - this is so we can contact you in the event of there being problems )
+  * secret (string, shared secret - used for message validation and acknowledgement)
+  * destination\_url (string, where notifications are sent to, e.g. https://my.superserver.com/webhooks )
   * name (string, something meaningful to you)
  
- When SocialSignIn sends webhook notifications to your destination\_url, the request to your destination url will look like :
+ When SocialSignIn sends webhook notifications to your destination\_url, the HTTP request to your destination url will look like the following :
  
  ```
+... http headers...
 SocialSignIn-HookId: <some uuid>
 SocialSignIn-Hash: <some sha256 string>
-  
+... http headers...
   
 { .... some json payload here .... }
 ```
-
 Where SocialSignIn-Hash is a sha256 hash\_hmac of the body and the shared secret
-
-```php
-var_dump(hash_hmac('sha256', 'thing-to-hash', 'secret'));
-```
 
 You should return something like the following to notify SocialSignIn of successful receipt.
 
-
 ```json
-
 {
  "verification-hash": "sha256string"
 }
