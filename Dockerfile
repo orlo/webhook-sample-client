@@ -20,7 +20,7 @@ COPY . /srv/webhook-client
 
 WORKDIR /srv/webhook-client
 
-RUN php setup.php
+RUN /usr/local/bin/composer -n install && php setup.php
 
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
 EXPOSE 80
