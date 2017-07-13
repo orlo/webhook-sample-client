@@ -107,7 +107,7 @@ SocialSignIn would generate a hash of :
 This value will be provided to you in the **SocialSignIn-Hash** HTTP header on the received notification at your ***destination_url***
 
 
-Upon receiving the notification you must reply with a hash of that hash ... (so the equivlaent of :
+Upon receiving the notification you must reply with a hash of that hash ... like the equivalent of the following PHP code :
 
 ```php 
 hash_hmac('sha256', 'e123f721ae689ad2a06b5eed0838238f27e5c71d2159c258e73c651c98f17bdf', 'testsecret' );
