@@ -24,7 +24,7 @@ It :
 ```docker run --rm -p 80:80 --name webhook -t ssi-webhook-image ```
 
 
-Unless this is running on a publically accessible server, you probably want to investigate using a service like 'ngrok' to provide a public URL to provide to SocialSignIn.
+Unless this is running on a publicaly accessible server, you probably want to investigate using a service like 'ngrok' to provide a public URL to provide to SocialSignIn.
 
 ### Traditional Unix Host
 
@@ -41,7 +41,7 @@ Register a webhook with SocialSignIn. You will need to provide SocialSignIn with
 
 The shared secret can be a string of any length - up to 255 characters.
 
-The destination_url can be up to 255 characters in length and should map to http://your-server/notify
+The destination\_url can be up to 255 characters in length and should map to http://your-server/notify
 
 
 ## config.json 
@@ -57,12 +57,12 @@ Finally, run 'php setup.php' if you're sticking with the default temporary sqlit
 
 When registering for a webhook with SocialSignIn, you provide :
 
-  * dev_email (string, email address)
+  * dev\_email (string, email address)
   * secret (string, shared secret)
-  * destination_url (string, where notifications are sent to)
+  * destination\_url (string, where notifications are sent to)
   * name (string, something meaningful to you)
  
- When SocialSignIn sends webhook notifications to your destination_url, the request to your destination url will look like :
+ When SocialSignIn sends webhook notifications to your destination\_url, the request to your destination url will look like :
  
  ```
 SocialSignIn-HookId: <some uuid>
@@ -72,7 +72,11 @@ SocialSignIn-Hash: <some sha256 string>
 { .... some json payload here .... }
 ```
 
-Where SocialSignIn-Hash is a sha256 hash_hmac of the body and the shared secret
+Where SocialSignIn-Hash is a sha256 hash\_hmac of the body and the shared secret
+
+```php
+var_dump(hash_hmac('sha256', 'thing-to-hash', 'secret'));
+```
 
 You should return something like the following to notify SocialSignIn of successful receipt.
 
