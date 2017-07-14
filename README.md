@@ -28,7 +28,7 @@ When registering for a webhook with SocialSignIn, you provide :
   * destination\_url (string, where notifications are sent to, e.g. https://my.superserver.com/webhooks )
   * name (string, something meaningful to you)
  
- When SocialSignIn sends webhook notifications to your destination\_url, the HTTP request to your destination url will look like the following :
+ When SocialSignIn sends webhook notifications to your destination\_url, the HTTP POST request to your destination url will look like the following :
  
  ```
 Content-Type: application/json

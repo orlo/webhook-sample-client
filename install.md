@@ -30,7 +30,7 @@ Register a webhook with SocialSignIn. You will need to provide SocialSignIn with
 
 The shared secret can be a string of any length - up to 255 characters.
 
-The destination\_url can be up to 255 characters in length and should map to http://your-server/notify
+The destination\_url can be up to 255 characters in length and should map to http://your-server/notification
 
 
 ## config.json 
