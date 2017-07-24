@@ -17,7 +17,7 @@ class Notification
         $hash = null;
         $payload = null;
 
-        if ($request->hasHeader('SocailSignIn-HookId')) {
+        if ($request->hasHeader('SocialSignIn-HookId')) {
             $uuid = Uuid::fromString($request->getHeader('SocialSignIn-HookId')[0]);
             $uuid = $uuid->toString();
         }
