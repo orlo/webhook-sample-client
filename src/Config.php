@@ -9,8 +9,14 @@ namespace SocialSignIn\WebhookClient;
 class Config
 {
 
+    /**
+     * @var array
+     */
     private $stash = [];
 
+    /**
+     * @param string $file
+     */
     public function __construct($file)
     {
         if (is_file($file)) {
@@ -19,6 +25,11 @@ class Config
         }
     }
 
+    /**
+     * @param string $name
+     * @param mixed $default
+     * @return mixed|null
+     */
     public function get($name, $default = null)
     {
         if (isset($this->stash[$name])) {

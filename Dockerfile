@@ -1,9 +1,9 @@
 FROM debian:stretch
-MAINTAINER me
-ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && \
-    apt-get install -y php7.0-cli php7.0-curl php7.0-json php7.0-xml php7.0-mysql php7.0-sqlite php7.0-mbstring \
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -qy eatmydata && \
+    eatmydata -- apt-get install -qy php7.0-cli php7.0-curl php7.0-json php7.0-xml php7.0-mysql php7.0-sqlite php7.0-mbstring \
         libapache2-mod-php7.0 curl lsb-release ca-certificates unzip apache2 && \
     rm -rf /var/lib/apt/lists/* && \
     rm /etc/apache2/sites-enabled/* && \

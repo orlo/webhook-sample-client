@@ -8,6 +8,9 @@ use Slim\Container;
 
 class ContainerFactory
 {
+    /**
+     * @return Container
+     */
     public static function build()
     {
         $container = new Container(['settings' => ['displayErrorDetails' => true]]);
@@ -20,13 +23,18 @@ class ContainerFactory
 
         $container['config'] = $config;
 
+        /**
+         * @return Database
+         */
         $container['database'] = function () use ($config) {
-
             $pdo = new \PDO($config->get('database_dsn'), $config->get('database_user'), $config->get('database_pass'));
             $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             return new Database($pdo);
         };
 
+        /**
+         * @return \Monolog\Logger|NullLogger
+         */
         $container['logger'] = function () {
             if (defined('PHP_UNIT')) {
                 return new NullLogger();

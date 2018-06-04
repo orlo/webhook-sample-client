@@ -11,7 +11,7 @@ class Database
     /**
      * @var \PDO
      */
-    protected $pdo = null;
+    protected $pdo;
 
     /**
      * @param \PDO $pdo
@@ -23,7 +23,7 @@ class Database
 
     /**
      * @param int $companyId (optional)
-     * @return Notification[]
+     * @return array
      */
     public function getNotifications()
     {
@@ -33,7 +33,7 @@ class Database
     }
 
     /**
-     * @return Notification
+     * @return array
      */
     public function getNotification(Uuid $uuid)
     {

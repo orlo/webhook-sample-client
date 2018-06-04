@@ -34,7 +34,9 @@ class NotificationController
     public function __construct(Container $container)
     {
         $this->logger = $container->has('logger') ? $container->get('logger') : new NullLogger();
+
         $this->database = $container->get('database');
+
         $this->config = $container->get('config');
 
     }
@@ -42,7 +44,7 @@ class NotificationController
     /**
      * @param Request $request
      * @param Response $response
-     * @param $args
+     * @param array $args - url args from routing
      * @return Response
      */
     public function getSingle(Request $request, Response $response, $args)

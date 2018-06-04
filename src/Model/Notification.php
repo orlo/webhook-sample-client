@@ -7,10 +7,25 @@ use Ramsey\Uuid\Uuid;
 class Notification
 {
 
-    private $webhook_uuid = null;
-    private $hash = null;
-    private $payload = null;
+    /**
+     * @var string
+     */
+    private $webhook_uuid;
 
+    /**
+     * @var string
+     */
+    private $hash;
+
+    /**
+     * @var string
+     */
+    private $payload;
+
+    /**
+     * @param \Psr\Http\Message\RequestInterface $request
+     * @return Notification
+     */
     public static function createFromHttpRequest(\Psr\Http\Message\RequestInterface $request)
     {
         $uuid = null;
@@ -77,6 +92,9 @@ class Notification
         return $this->payload;
     }
 
+    /**
+     * @return string
+     */
     public function getWebHookUUID()
     {
         return $this->webhook_uuid;
