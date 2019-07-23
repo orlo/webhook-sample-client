@@ -1,12 +1,8 @@
-FROM debian:stretch
+FROM socialsigninapp/docker-debian-gcp-php72:latest
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -qy eatmydata && \
-    eatmydata -- apt-get install -qy php7.0-cli php7.0-curl php7.0-json php7.0-xml php7.0-mysql php7.0-sqlite php7.0-mbstring \
-        libapache2-mod-php7.0 curl lsb-release ca-certificates unzip apache2 && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm /etc/apache2/sites-enabled/* && \
+RUN rm /etc/apache2/sites-enabled/* && \
     a2enmod rewrite deflate 
 
 RUN curl -so /usr/local/bin/composer https://getcomposer.org/composer.phar  && chmod 755 /usr/local/bin/composer && \
@@ -15,7 +11,7 @@ RUN curl -so /usr/local/bin/composer https://getcomposer.org/composer.phar  && c
     && ln -sf /dev/stderr /var/log/apache2/error.log
 
 COPY ./provisioning/apache-host /etc/apache2/sites-enabled/default.conf
-COPY ./provisioning/php.ini /etc/php/7.0/apache2/conf.d/logging.ini
+COPY ./provisioning/php.ini /etc/php/7.2/apache2/conf.d/logging.ini
 COPY . /srv/webhook-client
 
 WORKDIR /srv/webhook-client

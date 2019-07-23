@@ -36,9 +36,15 @@ class Notification
             $uuid = Uuid::fromString($request->getHeader('SocialSignIn-HookId')[0]);
             $uuid = $uuid->toString();
         }
+        else {
+            throw new \InvalidArgumentException("SocialSignIn-HookId HTTP header required");
+        }
 
         if ($request->hasHeader('SocialSignIn-Hash')) {
             $hash = $request->getHeader('SocialSignIn-Hash')[0];
+        }
+        else {
+            throw new \InvalidArgumentException("SocialSignIn-Hash HTTP header required");
         }
 
         $payload = "" . $request->getBody();
@@ -54,9 +60,9 @@ class Notification
      * @param string $hash
      */
     public function __construct(
-        $webhook_uuid,
-        $payload,
-        $hash
+        string $webhook_uuid,
+        string $payload,
+        string $hash
     ) {
         $this->hash = $hash; // SocialSignIn-Hash
         $this->webhook_uuid = $webhook_uuid; // SocialSignIn-HookId
