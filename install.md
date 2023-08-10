@@ -2,12 +2,11 @@
 
 ### Docker 
 
-```docker build -t ssi-webhook-image . ```
-
-```docker run --rm -p 80:80 --name webhook -t ssi-webhook-image ```
+`docker compose up -d`
 
 
-Unless this is running on a publicaly accessible server, you probably want to investigate using a service like 'ngrok' to provide a public URL to provide to SocialSignIn.
+Unless this is running on a publicaly accessible server, you probably want to investigate using a service like 'ngrok' or 'tailscale' to provide a public URL to Orlo.
+
 
 ### Traditional Unix Host
 
