@@ -1,0 +1,14 @@
+version: '3.0'
+
+services:
+  app:
+    hostname: app
+    build:
+      context: ./
+      dockerfile: Dockerfile
+
+    volumes:
+      - .:/srv/app
+    ports:
+     - "80"
+

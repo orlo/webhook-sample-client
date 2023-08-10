@@ -7,35 +7,21 @@ use SocialSignIn\WebhookClient\Model\Notification;
 
 class Database
 {
+    protected \PDO $pdo;
 
-    /**
-     * @var \PDO
-     */
-    protected $pdo;
-
-    /**
-     * @param \PDO $pdo
-     */
     public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
-    /**
-     * @param int $companyId (optional)
-     * @return array
-     */
-    public function getNotifications()
+    public function getNotifications(): array
     {
         $stmt = $this->pdo->prepare("SELECT * FROM notification ORDER BY created_ts DESC ");
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    /**
-     * @return array
-     */
-    public function getNotification(Uuid $uuid)
+    public function getNotification(Uuid $uuid): array
     {
 
         $stmt = $this->pdo->prepare("SELECT * FROM notification WHERE webhook_uuid = ? ");
@@ -46,16 +32,14 @@ class Database
     }
 
     /**
-     * @param Notification $notification
+     * @param Notification $n
      * @return boolean (whatever \PDOStatement->execute() returns)
      */
-    public function saveNotification(Notification $n)
+    public function saveNotification(Notification $n): bool
     {
 
         $sql = "INSERT INTO notification (webhook_uuid, content) VALUES (?, ?)";
-
         $stmt = $this->pdo->prepare($sql);
-
         return $stmt->execute([$n->getWebHookUUID(), $n->getPayload()]);
     }
 

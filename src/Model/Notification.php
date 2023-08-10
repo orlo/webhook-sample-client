@@ -7,20 +7,11 @@ use Ramsey\Uuid\Uuid;
 class Notification
 {
 
-    /**
-     * @var string
-     */
-    private $webhook_uuid;
+    private string $webhook_uuid;
 
-    /**
-     * @var string
-     */
-    private $hash;
+    private string $hash;
 
-    /**
-     * @var string
-     */
-    private $payload;
+    private string $payload;
 
     /**
      * @param \Psr\Http\Message\RequestInterface $request
@@ -28,10 +19,6 @@ class Notification
      */
     public static function createFromHttpRequest(\Psr\Http\Message\RequestInterface $request)
     {
-        $uuid = null;
-        $hash = null;
-        $payload = null;
-
         if ($request->hasHeader('SocialSignIn-HookId')) {
             $uuid = Uuid::fromString($request->getHeader('SocialSignIn-HookId')[0]);
             $uuid = $uuid->toString();

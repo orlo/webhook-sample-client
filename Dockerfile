@@ -12,9 +12,9 @@ RUN curl -so /usr/local/bin/composer https://getcomposer.org/composer.phar  && c
 
 COPY ./provisioning/apache-host /etc/apache2/sites-enabled/default.conf
 COPY ./provisioning/php.ini /etc/php/7.4/apache2/conf.d/logging.ini
-COPY . /srv/webhook-client
+COPY . /srv/app
 
-WORKDIR /srv/webhook-client
+WORKDIR /srv/app
 
 RUN /usr/local/bin/composer -n install && php setup.php
 

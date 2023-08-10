@@ -1,8 +1,8 @@
 <VirtualHost *:80>
 
-    DocumentRoot /srv/webhook-client/public
+    DocumentRoot /srv/app/public
 
-    <Directory "/srv/webhook-client">
+    <Directory "/srv/app">
         Options FollowSymlinks
         AllowOverride ALL
         Require all granted
