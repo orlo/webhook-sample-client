@@ -1,4 +1,4 @@
-FROM socialsigninapp/docker-debian-gcp-php72:latest
+FROM socialsigninapp/docker-debian-gcp-php74:latest
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -11,7 +11,7 @@ RUN curl -so /usr/local/bin/composer https://getcomposer.org/composer.phar  && c
     && ln -sf /dev/stderr /var/log/apache2/error.log
 
 COPY ./provisioning/apache-host /etc/apache2/sites-enabled/default.conf
-COPY ./provisioning/php.ini /etc/php/7.2/apache2/conf.d/logging.ini
+COPY ./provisioning/php.ini /etc/php/7.4/apache2/conf.d/logging.ini
 COPY . /srv/webhook-client
 
 WORKDIR /srv/webhook-client
