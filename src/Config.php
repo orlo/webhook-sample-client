@@ -1,27 +1,24 @@
 <?php
+
 /**
  *
  */
 
 namespace SocialSignIn\WebhookClient;
 
-
 class Config
 {
+    private array $stash = [];
 
-    /**
-     * @var array
-     */
-    private $stash = [];
-
-    /**
-     * @param string $file
-     */
-    public function __construct($file)
+    public function __construct(string $file)
     {
         if (is_file($file)) {
             $text = file_get_contents($file);
-            $this->stash = json_decode($text, true);
+
+            if (!is_string($text)) {
+                throw new \InvalidArgumentException('Config file must contain a string');
+            }
+            $this->stash = json_decode($text, true, flags: JSON_THROW_ON_ERROR);
         }
     }
 
@@ -30,7 +27,7 @@ class Config
      * @param mixed $default
      * @return mixed|null
      */
-    public function get($name, $default = null)
+    public function get(string $name, $default = null)
     {
         if (isset($this->stash[$name])) {
             return $this->stash[$name];

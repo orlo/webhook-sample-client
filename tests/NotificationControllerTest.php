@@ -1,11 +1,12 @@
 <?php
 
+namespace Test;
+
 use Mockery as m;
 
-class NotificationControllerTest extends PHPUnit_Framework_TestCase
+class NotificationControllerTest extends \PHPUnit\Framework\TestCase
 {
-
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
         parent::tearDown();
@@ -18,8 +19,8 @@ class NotificationControllerTest extends PHPUnit_Framework_TestCase
 
         $notification = new \SocialSignIn\WebhookClient\Controllers\NotificationController($container);
 
-        $request = m::mock(Slim\Http\Request::class);
-        $response = m::mock(Slim\Http\Response::class);
+        $request = m::mock(\Slim\Http\Request::class);
+        $response = m::mock(\Slim\Http\Response::class);
 
         $response->shouldReceive('withStatus')->once()->withArgs([500, 'uuid not specified or valid.']);
 
@@ -34,12 +35,12 @@ class NotificationControllerTest extends PHPUnit_Framework_TestCase
 
         $notification = new \SocialSignIn\WebhookClient\Controllers\NotificationController($container);
 
-        $request = m::mock(Slim\Http\Request::class);
-        $response = m::mock(Slim\Http\Response::class);
+        $request = m::mock(\Slim\Http\Request::class);
+        $response = m::mock(\Slim\Http\Response::class);
 
         $response->shouldReceive('withJson')->once()->withArgs(function ($body, $status) {
             $this->assertEquals(200, $status);
-            $this->assertInternalType('array', $body);
+            $this->assertEquals('array', gettype($body));
             return true;
         });
 
@@ -61,8 +62,8 @@ class NotificationControllerTest extends PHPUnit_Framework_TestCase
 
         $notification = new \SocialSignIn\WebhookClient\Model\Notification($hook_uuid, $body, $hash_header);
 
-        $request = m::mock(Slim\Http\Request::class);
-        $response = m::mock(Slim\Http\Response::class);
+        $request = m::mock(\Slim\Http\Request::class);
+        $response = m::mock(\Slim\Http\Response::class);
 
         $request->shouldReceive('getMethod')->andReturn('post')->once();
 
@@ -70,23 +71,27 @@ class NotificationControllerTest extends PHPUnit_Framework_TestCase
 
         $request->shouldReceive('getHeader')->once()->with('SocialSignIn-HookId')->andReturn([$hook_uuid]);
         $request->shouldReceive('getHeader')->once()->with('SocialSignIn-Hash')->andReturn([$hash_header]);
-        $request->shouldReceive('getBody')->twice()->andReturn($body);
+        $request->shouldReceive('getBody->getContents')->twice()->andReturn($body);
 
 
-        $response->shouldReceive('withJson')->once()->withArgs(function ($body, $httpStatus) use (
+        $response->shouldReceive('withJson')->once()->withArgs(function (
+            $body,
+            $httpStatus
+        ) use (
             $notification,
             $config,
             $hash_header
         ) {
             $this->assertNotEmpty($body);
-            $this->assertEquals($body['verification-hash'],
-                $notification->generateVerificationHash($config->get('secret')));
+            $this->assertEquals(
+                $body['verification-hash'],
+                $notification->generateVerificationHash($config->get('secret'))
+            );
             $this->assertNotEquals($body['verification-hash'], $hash_header);
             $this->assertEquals(200, $httpStatus);
             return true;
         })->andReturn($response);
 
         $controller->receiveWebHook($request, $response);
-
     }
 }

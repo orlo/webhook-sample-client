@@ -11,10 +11,8 @@ use Slim\Http\Response;
 use SocialSignIn\WebhookClient\Config;
 use SocialSignIn\WebhookClient\Database;
 
-
 class NotificationController
 {
-
     /**
      * @var LoggerInterface
      */
@@ -38,7 +36,6 @@ class NotificationController
         $this->database = $container->get('database');
 
         $this->config = $container->get('config');
-
     }
 
     /**
@@ -60,7 +57,6 @@ class NotificationController
         }
 
         return $response->withJson($notification, 200);
-
     }
 
     /**
@@ -96,12 +92,15 @@ class NotificationController
         $notification = \SocialSignIn\WebhookClient\Model\Notification::createFromHttpRequest($request);
 
 
-        $body = "" . $request->getBody();
+        $body = "" . $request->getBody()->getContents();
 
         $this->logger->info("Received web hook notification", [$body]);
 
         $shared_secret = $this->config->get('secret');
 
+        if (!is_string($shared_secret)) {
+            throw new \InvalidArgumentException("secret for hmac signing not defined in config");
+        }
 
         if ($notification->isValid($shared_secret)) { // is it really from SocialSignIn ?
             $this->logger->info("Saving notification to db.");
@@ -115,5 +114,4 @@ class NotificationController
 
         return $response->withJson(['error' => 'hash mismatch', $notification], 400); // bad request
     }
-
 }

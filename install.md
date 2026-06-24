@@ -12,7 +12,7 @@ Unless this is running on a publicaly accessible server, you probably want to in
 
 Requirements :
 
- * PHP7 + Sqlite (or another database)
+ * PHP8.2 + Sqlite (or another database)
  * Apache (otherwise, recreate the equivalent of what's in web/.htaccess)
  
 Copy the code to an appropriate Unix host; map /path/to/code/public to a document root (example Apache config is in provisioning/apache-host)

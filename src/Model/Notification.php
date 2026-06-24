@@ -6,7 +6,6 @@ use Ramsey\Uuid\Uuid;
 
 class Notification
 {
-
     private string $webhook_uuid;
 
     private string $hash;
@@ -22,19 +21,17 @@ class Notification
         if ($request->hasHeader('SocialSignIn-HookId')) {
             $uuid = Uuid::fromString($request->getHeader('SocialSignIn-HookId')[0]);
             $uuid = $uuid->toString();
-        }
-        else {
+        } else {
             throw new \InvalidArgumentException("SocialSignIn-HookId HTTP header required");
         }
 
         if ($request->hasHeader('SocialSignIn-Hash')) {
             $hash = $request->getHeader('SocialSignIn-Hash')[0];
-        }
-        else {
+        } else {
             throw new \InvalidArgumentException("SocialSignIn-Hash HTTP header required");
         }
 
-        $payload = "" . $request->getBody();
+        $payload = "" . $request->getBody()->getContents();
 
         return new Notification($uuid, $payload, $hash);
     }

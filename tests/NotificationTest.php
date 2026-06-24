@@ -1,11 +1,12 @@
 <?php
 
+namespace Test;
+
 use Mockery as m;
 
-class NotificationTest extends PHPUnit_Framework_TestCase
+class NotificationTest extends \PHPUnit\Framework\TestCase
 {
-
-    public function tearDown()
+    public function tearDown():void
     {
         m::close();
     }
@@ -20,19 +21,12 @@ class NotificationTest extends PHPUnit_Framework_TestCase
             'test' => ['lorem', 'ipsum', uniqid()]
         ]);
 
-
         $body_hash = hash_hmac('sha256', $payload, $secret);
-
-
         $verification_header = hash_hmac('sha256', $body_hash, $secret);
-
-
         $uuid = \Ramsey\Uuid\Uuid::uuid4(); // random.
-
         $notification = new \SocialSignIn\WebhookClient\Model\Notification($uuid, $payload, $body_hash);
 
         $this->assertTrue($notification->isValid($secret));
-
     }
 
     public function testCreateFromHttpRequest()
@@ -53,7 +47,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase
 
         $req->shouldReceive('getHeader')->once()->with('SocialSignIn-HookId')->andReturn([$hook_uuid]);
         $req->shouldReceive('getHeader')->once()->with('SocialSignIn-Hash')->andReturn([$hash_header]);
-        $req->shouldReceive('getBody')->once()->andReturn($body);
+        $req->shouldReceive('getBody->getContents')->once()->andReturn($body);
 
         $notification = \SocialSignIn\WebhookClient\Model\Notification::createFromHttpRequest($req);
 

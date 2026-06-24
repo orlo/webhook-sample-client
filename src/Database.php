@@ -42,5 +42,4 @@ class Database
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([$n->getWebHookUUID(), $n->getPayload()]);
     }
-
 }

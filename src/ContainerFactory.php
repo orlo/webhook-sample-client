@@ -3,6 +3,7 @@
 namespace SocialSignIn\WebhookClient;
 
 use Monolog\Handler\StreamHandler;
+use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Slim\Container;
 
@@ -26,8 +27,16 @@ class ContainerFactory
         /**
          * @return Database
          */
-        $container['database'] = function () use ($config) {
-            $pdo = new \PDO($config->get('database_dsn'), $config->get('database_user'), $config->get('database_pass'));
+        $container['database'] = function () use ($config): Database {
+            $dsn = $config->get('database_dsn');
+            $user = $config->get('database_user');
+            $pass = $config->get('database_pass');
+
+            if (!is_string($dsn) || empty($dsn)) {
+                throw new \InvalidArgumentException("config -> Database DSN is not a string or is empty");
+            }
+
+            $pdo = new \PDO($dsn, $user, $pass);
             $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             return new Database($pdo);
         };
@@ -35,7 +44,7 @@ class ContainerFactory
         /**
          * @return \Monolog\Logger|NullLogger
          */
-        $container['logger'] = function () {
+        $container['logger'] = function (): LoggerInterface {
             if (defined('PHP_UNIT')) {
                 return new NullLogger();
             }
